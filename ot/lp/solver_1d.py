@@ -302,7 +302,7 @@ def emd_1d(
 
 
 def emd2_1d(
-    x_a, x_b, a=None, b=None, metric="sqeuclidean", p=1.0, dense=True, log=False
+    x_a, x_b, a=None, b=None, metric="sqeuclidean", p=1.0, dense=True, log=False, check_marginals=True,
 ):
     r"""Solves the Earth Movers distance problem between 1d measures and returns
     the loss
@@ -349,6 +349,9 @@ def emd2_1d(
     log: boolean, optional (default=False)
         If True, returns a dictionary containing the transportation matrix.
         Otherwise returns only the loss.
+    check_marginals: bool, optional (default=True)
+        If True, checks that the marginals mass are equal. If False, skips the
+        check.
 
     Returns
     -------
@@ -390,7 +393,7 @@ def emd2_1d(
     # If we do not return G (log==False), then we should not to cast it to dense
     # (useless overhead)
     G, log_emd = emd_1d(
-        x_a=x_a, x_b=x_b, a=a, b=b, metric=metric, p=p, dense=dense and log, log=True
+        x_a=x_a, x_b=x_b, a=a, b=b, metric=metric, p=p, dense=dense and log, log=True, check_marginals=check_marginals,
     )
     cost = log_emd["cost"]
     if log:
